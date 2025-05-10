@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jnr Academy Portal</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-image: url('https://img.freepik.com/premium-photo/african-american-students-collaborating-digital-project_917664-172788.jpg?semt=ais_hybrid&w=740');
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+    .container {
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 10px;
+      max-width: 500px;
+      padding: 30px;
+      margin: 50px auto;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    }
+    h2 {
+      text-align: center;
+      color: #333;
+    }
+    label {
+      margin-top: 10px;
+      display: block;
+      font-weight: bold;
+    }
+    input[type="text"],
+    input[type="password"],
+    input[type="email"],
+    input[type="number"],
+    input[type="radio"],
+    select,
+    input[type="file"] {
+      width: 100%;
+      padding: 10px;
+      margin-top: 6px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    .gender {
+      display: flex;
+      gap: 20px;
+      margin-top: 10px;
+    }
+    .buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+    }
+    button {
+      width: 48%;
+      padding: 10px;
+      background: #0066cc;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #004a99;
+    }
+    .status {
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    .form-header {
+      text-align: center;
+    }
+    #successMessage {
+      text-align: center;
+      font-size: 30px;
+      color: green;
+      animation: fadeIn 2s ease-in-out;
+    }
+    @keyframes fadeIn {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- LOGIN PAGE -->
+<div class="container" id="loginPage" style="background-image: url('white');">
+  <h2 class="form-header">Jnr Academy Login</h2>
+  <form id="loginForm">
+    <label>Username:</label>
+    <input type="text" id="loginUsername" required>
+    <label>Password:</label>
+    <input type="password" id="loginPassword" required>
+    <div class="buttons">
+      <button type="button" onclick="login()">Login</button>
+    </div>
+    <p style="text-align: center;">Don't have an account? <a href="javascript:void(0);" onclick="goToSignUp()">Sign Up</a></p>
+    <p style="text-align: center;">Already have an account? <a href="javascript:void(0);" onclick="goToSignUp()">Log In</a></p>
+  </form>
+</div>
+
+<!-- SIGN-UP PAGE -->
+<div class="container" id="signUpPage" style="display: none; background-image: url('white');">
+  <h2 class="form-header">Jnr Academy Sign Up</h2>
+  <form id="signUpForm">
+    <label>Username:</label>
+    <input type="text" id="signUpUsername" required>
+    <label>Password:</label>
+    <input type="password" id="signUpPassword" required>
+    <label>Confirm Password:</label>
+    <input type="password" id="confirmPassword" required>
+    <label>Passport Size Photo:</label>
+    <input type="file" id="passportPhoto" accept="image/*" required>
+    <label>Gender:</label>
+    <div class="gender">
+      <input type="radio" name="gender" value="Male" id="male" required><label for="male">Male</label>
+      <input type="radio" name="gender" value="Female" id="female" required><label for="female">Female</label>
+    </div>
+    <label>Country:</label>
+    <select id="country" required>
+      <!-- List of African Countries -->
+      <option value="Nigeria">Nigeria</option>
+      <option value="South Africa">South Africa</option>
+      <option value="Egypt">Egypt</option>
+      <option value="Kenya">Kenya</option>
+      <option value="Ghana">Ghana</option>
+      <!-- Add more African countries here -->
+    </select>
+    <div class="buttons">
+      <button type="button" onclick="signUp()">Sign Up</button>
+    </div>
+  </form>
+</div>
+
+<!-- Page 1: Basic Information -->
+<div class="container" id="page1" style="display: none; background-image: url('white');">
+  <h2>Basic Information</h2>
+  <form id="basicForm">
+    <label>Name:</label>
+    <input type="text" id="name" required>
+    <label>Age:</label>
+    <input type="number" id="age" required>
+    <div class="buttons">
+      <button type="button" onclick="goToPage(2)">Next</button>
+    </div>
+  </form>
+</div>
+
+<!-- Page 2: Contact Information -->
+<div class="container" id="page2" style="display: none; background-image: url('white');">
+  <h2>Contact Information</h2>
+  <form id="contactForm">
+    <label>Email:</label>
+    <input type="email" id="email" required>
+    <label>Phone:</label>
+    <input type="text" id="phone" required>
+    <label>Address:</label>
+    <input type="text" id="address" required>
+    <div class="buttons">
+      <button type="button" onclick="goToPage(3)">Next</button>
+    </div>
+  </form>
+</div>
+
+<!-- Page 3: Medical Information -->
+<div class="container" id="page3" style="display: none; background-image: url('white');">
+  <h2>Medical Information</h2>
+  <form id="medicalForm">
+    <label>Blood Group:</label>
+    <input type="text" id="bloodGroup" required>
+    <label>Any Allergies?</label>
+    <input type="text" id="allergies" required>
+    <div class="buttons">
+      <button type="button" onclick="goToPage(4)">Next</button>
+    </div>
+  </form>
+</div>
+
+<!-- Page 4: Emergency Contacts -->
+<div class="container" id="page4" style="display: none; background-image: url('emergency-bg.jpg');">
+  <h2>Emergency Contacts</h2>
+  <form id="emergencyForm">
+    <label>Emergency Contact Name:</label>
+    <input type="text" id="emergencyName" required>
+    <label>Emergency Phone:</label>
+    <input type="text" id="emergencyPhone" required>
+    <div class="buttons">
+      <button type="button" onclick="goToPage(5)">Next</button>
+    </div>
+  </form>
+</div>
+
+<!-- Page 5: Family Information -->
+<div class="container" id="page5" style="display: none; background-image: url('white');">
+  <h2>Family Information</h2>
+  <form id="familyForm">
+    <label>Father's Name:</label>
+    <input type="text" id="fatherName" required>
+    <label>Mother's Name:</label>
+    <input type="text" id="motherName" required>
+    <div class="buttons">
+      <button type="button" onclick="goToPage(6)">Next</button>
+    </div>
+  </form>
+</div>
+
+<!-- Page 6: Final Details -->
+<div class="container" id="page6" style="display: none; background-image: url('white');">
+  <h2>Final Details</h2>
+  <form id="finalForm">
+    <label>Hobbies:</label>
+    <input type="text" id="hobbies" required>
+    <label>Favorite Subject:</label>
+    <input type="text" id="favoriteSubject" required>
+    <div class="buttons">
+      <button type="button" onclick="submitForm()">Submit</button>
+    </div>
+  </form>
+</div>
+
+<!-- Success Page: Application Submitted -->
+<div class="container" id="successPage" style="display: none; background-image: url('success-bg.jpg');">
+  <h2 id="successMessage">Application Submitted Successfully!</h2>
+</div>
+
+<!-- Dashboard: Show all collected data -->
+<div class="container" id="dashboard" style="display: none; background-image: url('white');">
+  <h2>Dashboard</h2>
+  <p><strong>Name:</strong> <span id="displayName"></span></p>
+  <p><strong>Age:</strong> <span id="displayAge"></span></p>
+  <p><strong>Email:</strong> <span id="displayEmail"></span></p>
+  <p><strong>Phone:</strong> <span id="displayPhone"></span></p>
+  <p><strong>Address:</strong> <span id="displayAddress"></span></p>
+  <p><strong>Blood Group:</strong> <span id="displayBloodGroup"></span></p>
+  <p><strong>Allergies:</strong> <span id="displayAllergies"></span></p>
+  <p><strong>Emergency Contact Name:</strong> <span id="displayEmergencyName"></span></p>
+  <p><strong>Emergency Contact Phone:</strong> <span id="displayEmergencyPhone"></span></p>
+  <p><strong>Father's Name:</strong> <span id="displayFatherName"></span></p>
+  <p><strong>Mother's Name:</strong> <span id="displayMotherName"></span></p>
+  <p><strong>Hobbies:</strong> <span id="displayHobbies"></span></p>
+  <p><strong>Favorite Subject:</strong> <span id="displayFavoriteSubject"></span></p>
+  <button onclick="printPreview()">Print Preview</button>
+</div>
+
+<script>
+// Functions for form handling, validation, and navigation
+
+// Validate fields on each page before proceeding
+function validateForm(formId) {
+  const form = document.getElementById(formId);
+  const inputs = form.querySelectorAll('input, select');
+  for (let i = 0; i < inputs.length; i++) {
+    if (inputs[i].value === "") {
+      alert("Please fill in all fields.");
+      return false;
+    }
+  }
+  return true;
+}
+
+// Page navigation with validation
+function goToPage(pageNum) {
+  if (pageNum === 2 && !validateForm('basicForm')) return;
+  if (pageNum === 3 && !validateForm('contactForm')) return;
+  if (pageNum === 4 && !validateForm('medicalForm')) return;
+  if (pageNum === 5 && !validateForm('emergencyForm')) return;
+  if (pageNum === 6 && !validateForm('familyForm')) return;
+  if (pageNum === 7 && !validateForm('finalForm')) return;
+
+  // Store data in localStorage
+  if (pageNum === 2) {
+    localStorage.setItem('name', document.getElementById('name').value);
+    localStorage.setItem('age', document.getElementById('age').value);
+  }
+  if (pageNum === 3) {
+    localStorage.setItem('email', document.getElementById('email').value);
+    localStorage.setItem('phone', document.getElementById('phone').value);
+    localStorage.setItem('address', document.getElementById('address').value);
+  }
+  if (pageNum === 4) {
+    localStorage.setItem('bloodGroup', document.getElementById('bloodGroup').value);
+    localStorage.setItem('allergies', document.getElementById('allergies').value);
+  }
+  if (pageNum === 5) {
+    localStorage.setItem('emergencyName', document.getElementById('emergencyName').value);
+    localStorage.setItem('emergencyPhone', document.getElementById('emergencyPhone').value);
+  }
+  if (pageNum === 6) {
+    localStorage.setItem('fatherName', document.getElementById('fatherName').value);
+    localStorage.setItem('motherName', document.getElementById('motherName').value);
+  }
+  if (pageNum === 7) {
+    localStorage.setItem('hobbies', document.getElementById('hobbies').value);
+    localStorage.setItem('favoriteSubject', document.getElementById('favoriteSubject').value);
+    alert("Application submitted successfully!");
+    document.getElementById('successPage').style.display = "block";
+    document.getElementById('page6').style.display = "none";
+  }
+
+  document.getElementById('page' + (pageNum - 1)).style.display = "none";
+  document.getElementById('page' + pageNum).style.display = "block";
+}
+
+// Show final dashboard with all data
+function showDashboard() {
+  document.getElementById('dashboard').style.display = "block";
+  document.getElementById('displayName').innerText = localStorage.getItem('name');
+  document.getElementById('displayAge').innerText = localStorage.getItem('age');
+  document.getElementById('displayEmail').innerText = localStorage.getItem('email');
+  document.getElementById('displayPhone').innerText = localStorage.getItem('phone');
+  document.getElementById('displayAddress').innerText = localStorage.getItem('address');
+  document.getElementById('displayBloodGroup').innerText = localStorage.getItem('bloodGroup');
+  document.getElementById('displayAllergies').innerText = localStorage.getItem('allergies');
+  document.getElementById('displayEmergencyName').innerText = localStorage.getItem('emergencyName');
+  document.getElementById('displayEmergencyPhone').innerText = localStorage.getItem('emergencyPhone');
+  document.getElementById('displayFatherName').innerText = localStorage.getItem('fatherName');
+  document.getElementById('displayMotherName').innerText = localStorage.getItem('motherName');
+  document.getElementById('displayHobbies').innerText = localStorage.getItem('hobbies');
+  document.getElementById('displayFavoriteSubject').innerText = localStorage.getItem('favoriteSubject');
+}
+
+function printPreview() {
+  window.print();
+}
+
+function login() {
+  const username = document.getElementById("loginUsername").value;
+  const password = document.getElementById("loginPassword").value;
+  if (username === "admin" && password === "password") {
+    showDashboard();
+  } else {
+    alert("Invalid username or password.");
+  }
+}
+
+function goToSignUp() {
+  document.getElementById("loginPage").style.display = "none";
+  document.getElementById("signUpPage").style.display = "block";
+}
+
+function signUp() {
+  const username = document.getElementById("signUpUsername").value;
+  const password = document.getElementById("signUpPassword").value;
+  const confirmPassword = document.getElementById("confirmPassword").value;
+
+  if (password !== confirmPassword) {
+    alert("Passwords do not match!");
+    return;
+  }
+
+  alert("You have successfully signed up!");
+  document.getElementById("signUpPage").style.display = "none";
+  document.getElementById("page1").style.display = "block";
+}
+</script>
+
+</body>
+</html>
